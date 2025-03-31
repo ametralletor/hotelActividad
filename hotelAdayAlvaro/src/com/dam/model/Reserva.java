@@ -9,15 +9,25 @@ public class Reserva {
     private LocalDate fechaCheckin;
     private LocalDate fechaCheckout;
     private double precioTotal;
-    private int noches;
 
-    public Reserva(int id, Habitacion habitacion, Cliente cliente, LocalDate fechaCheckin, int noches) {
+
+    public Reserva(int id, Habitacion habitacion, Cliente cliente, LocalDate fechaCheckin, LocalDate fechaCheckout) {
+        if (fechaCheckout.isAfter(fechaCheckin.plusDays(90))) {
+            throw new IllegalArgumentException("No se puede reservar por más de 90 días.");
+        }
+        if (fechaCheckout.isBefore(LocalDate.now()) || fechaCheckin.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("La fecha de checkin o checkout no puede ser anterior a la fecha actual.");
+            
+        }
+        if (fechaCheckout.isBefore(fechaCheckin)) {
+            throw new IllegalArgumentException("La fecha de checkout no puede ser anterior a la fecha de checkin.");
+            
+        }
         this.id = id;
         this.habitacion = habitacion;
         this.cliente = cliente;
         this.fechaCheckin = fechaCheckin;
-        this.noches = noches;
-        this.fechaCheckout = fechaCheckin.plusDays(noches);
+        this.fechaCheckout = fechaCheckout;
         this.precioTotal = calcularPrecioTotal();
     }
 
@@ -31,10 +41,6 @@ public class Reserva {
 
     public Cliente getCliente() {
         return cliente;
-    }
-
-    public int getNoches() {
-        return noches;
     }
 
     public LocalDate getFechaCheckin() {

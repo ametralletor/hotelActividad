@@ -1,4 +1,5 @@
 package com.dam.model;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 
@@ -32,7 +33,11 @@ public class Cliente {
         return reservasActuales;
     }
 
-    public void addReserva(Reserva reserva){
+    public void addReserva(Reserva reserva) throws Exception{
+        if (reservasActuales.size()>=3) {
+            throw new Exception("El cliente (ID:"+id+") "+nombre+" ya tiene 3 reservas actuales.");
+        }
+        
         reservasActuales.add(reserva);
         historialReservas.add(reserva);
     }

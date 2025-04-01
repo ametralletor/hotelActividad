@@ -34,11 +34,25 @@ public class Cliente {
     }
 
     public void addReserva(Reserva reserva) throws Exception{
-        if (reservasActuales.size()>=3) {
+        if (reservasActuales.size()<3) {
+            reservasActuales.add(reserva);
+            historialReservas.add(reserva);
+            
+        } else{
             throw new Exception("El cliente (ID:"+id+") "+nombre+" ya tiene 3 reservas actuales.");
         }
         
-        reservasActuales.add(reserva);
-        historialReservas.add(reserva);
+        
     }
+
+    public void cancelReserva(Reserva reserva) throws Exception{
+        try {
+            reservasActuales.remove(reserva);
+        } catch (Exception e) {
+            throw new Exception("No se ha podido cancelar la reserva (ID:"+reserva.getId()+") del cliente (ID:"+id+") "+nombre+".");
+        }
+        
+    }
+
+    
 }

@@ -10,6 +10,10 @@
 //SUITE: 150€
 
 
+//AÑADIR FUNCION PARA BUSCAR UNA HABITACION POR TIPO Y OTRA POR ESTADO
+//Resumen de Habitaciones: Listar todas las habitaciones y su estado actual.
+//Resumen de Clientes: Listar todos los clientes registrados y las habitaciones que tienen reservadas.
+
 package com.dam.controller;
 
 import java.time.LocalDate;
@@ -38,7 +42,7 @@ public class GestorHotel{
         return null;
     }
 
-    public Habitacion buscarHabitacionPoNum(int numero){
+    public Habitacion buscarHabitacionPorNum(int numero){
         for (Habitacion habitacion : habitaciones) {
             if (habitacion.getNumero() == numero) {
                 return habitacion;
@@ -65,7 +69,7 @@ public class GestorHotel{
         if (cliente == null) {
             throw new Exception("Cliente no encontrado.");
         }
-        Habitacion habitacion= buscarHabitacionPoNum(reserva.getHabitacion().getNumero());
+        Habitacion habitacion= buscarHabitacionPorNum(reserva.getHabitacion().getNumero());
         if (habitacion == null) {
             throw new Exception("Habitacion no encontrada.");
         }
@@ -116,6 +120,7 @@ public class GestorHotel{
         if (reservasActivas.isEmpty()) {
             System.out.println("El cliente no tiene reservas activas.");
         } else {
+            System.out.println("Reservas activas del cliente " + cliente.getNombre() + " (ID:"+cliente.getId()+"):");
             for (Reserva reserva : reservasActivas) {
                 System.out.println("Reserva ID: " + reserva.getId() + ", Habitacion: " + reserva.getHabitacion().getNumero() + ", Checkin: " + reserva.getFechaCheckin() + ", Checkout: " + reserva.getFechaCheckout());
             }

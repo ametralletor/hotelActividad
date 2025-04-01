@@ -143,4 +143,32 @@ public class GestorHotel{
         }
     }
 
+    public void agregarHabitaciones() {
+        for (int i = 1; i <= 3; i++) { // Loop through floors
+            for (int j = 1; j <= 5; j++) { // Loop through rooms per floor
+                int numeroHabitacion = i * 100 + j;
+                TipoHabitacion tipo;
+                double precio;
+
+                if (j == 1) { // First room on each floor is a Suite
+                    tipo = TipoHabitacion.SUITE;
+                    precio = 150.0;
+                } else if (j <= 3) { // Rooms 2 and 3 are Double
+                    tipo = TipoHabitacion.DOBLE;
+                    precio = 80.0;
+                } else { // Rooms 4 and 5 are Individual
+                    tipo = TipoHabitacion.INDIVIDUAL;
+                    precio = 50.0;
+                }
+
+                Habitacion habitacion = new Habitacion(numeroHabitacion, tipo, precio, EstadoHabitacion.DISPONIBLE);
+                habitaciones.add(habitacion);
+            }
+        }
+    }
+
+    public ArrayList<Habitacion> getHabitaciones() {
+        return habitaciones;
+    }
+
 }

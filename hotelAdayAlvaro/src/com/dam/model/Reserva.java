@@ -11,7 +11,7 @@ public class Reserva {
     private double precioTotal;
 
 
-    public Reserva(int id, Habitacion habitacion, Cliente cliente, LocalDate fechaCheckin, LocalDate fechaCheckout) {
+    public Reserva(int id, Cliente cliente, Habitacion habitacion, LocalDate fechaCheckin, LocalDate fechaCheckout) {
         if (fechaCheckout.isAfter(fechaCheckin.plusDays(90))) {
             throw new IllegalArgumentException("No se puede reservar por más de 90 días.");
         }

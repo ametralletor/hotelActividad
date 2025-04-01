@@ -5,12 +5,20 @@ public class Habitacion {
     private TipoHabitacion tipo;
     private EstadoHabitacion estado;
     private String descripcion;
+    private double precio;
 
     public Habitacion(int numero, TipoHabitacion tipo, String descripcion) {
         this.numero = numero;
         this.tipo = tipo;
         this.estado = EstadoHabitacion.DISPONIBLE;
         this.descripcion = descripcion;
+    }
+
+    public Habitacion(int numero, TipoHabitacion tipo, double precio, EstadoHabitacion estado) {
+        this.numero = numero;
+        this.tipo = tipo;
+        this.precio = precio;
+        this.estado = estado;
     }
 
     public int getNumero() {

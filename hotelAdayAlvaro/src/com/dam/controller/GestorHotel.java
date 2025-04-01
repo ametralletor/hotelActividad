@@ -96,7 +96,7 @@ public class GestorHotel{
             
         }
         if (habitacion.getEstado().equals(EstadoHabitacion.RESERVADA) ) {
-            cliente.getReservasActuales().remove(reserva);
+            cliente.cancelReserva(reserva);
             habitacion.setEstado(EstadoHabitacion.DISPONIBLE);
             reservas.remove(reserva);
             

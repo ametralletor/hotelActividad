@@ -1,3 +1,15 @@
+//HAY QUE HACER UNA FUNCION PARA AGREGAR HABITACIONES. LAS HABITACIONES ESTAN DIVIDIDAS EN PLANTAS:
+//Planta 1: 101 - 105
+//Planta 2: 201 - 205
+//Planta 3: 301 - 305
+
+//Tipos de habitación y precios por noche:
+
+//INDIVIDUAL: 50€
+//DOBLE: 80€
+//SUITE: 150€
+
+
 package com.dam.controller;
 
 import java.time.LocalDate;

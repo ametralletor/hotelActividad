@@ -24,7 +24,7 @@ public class Reserva {
             
         }
         this.id = id;
-        this.habitacion = habitacion;
+        this.habitacion = habitacion; // Asegúrate de que esta referencia provenga de GestorHotel
         this.cliente = cliente;
         this.fechaCheckin = fechaCheckin;
         this.fechaCheckout = fechaCheckout;

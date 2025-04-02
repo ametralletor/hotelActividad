@@ -42,8 +42,12 @@ public class Habitacion {
     }
     
     public void setEstado(EstadoHabitacion estado) {
+        System.out.println("Cambiando estado de la habitación " + numero + " a " + estado);
         this.estado = estado;
     }
 
+    public void actualizarEstado(EstadoHabitacion nuevoEstado) {
+        this.estado = nuevoEstado;
+    }
 
 }

@@ -47,7 +47,7 @@ public class GestorHotel{
     public Habitacion buscarHabitacionPorNum(int numero){
         for (Habitacion habitacion : habitaciones) {
             if (habitacion.getNumero() == numero) {
-                return habitacion;
+                return habitacion; // Devuelve la referencia exacta de la lista
             }
         }
         return null;
@@ -66,27 +66,23 @@ public class GestorHotel{
         clientes.add(cliente);
     }
 
-    public void hacerReserva(Reserva reserva) throws Exception{
-        Cliente cliente= buscarClientePorId(reserva.getCliente().getId());
+    public void hacerReserva(Reserva reserva) throws Exception {
+        Cliente cliente = buscarClientePorId(reserva.getCliente().getId());
         if (cliente == null) {
             throw new Exception("Cliente no encontrado.");
         }
-        Habitacion habitacion= buscarHabitacionPorNum(reserva.getHabitacion().getNumero());
+        Habitacion habitacion = buscarHabitacionPorNum(reserva.getHabitacion().getNumero());
         if (habitacion == null) {
-            throw new Exception("Habitacion no encontrada.");
+            throw new Exception("Habitación no encontrada.");
         }
-        if (habitacion.getEstado().equals(EstadoHabitacion.DISPONIBLE) ) {
+        if (habitacion.getEstado().equals(EstadoHabitacion.DISPONIBLE)) {
             cliente.addReserva(reserva);
-            habitacion.setEstado(EstadoHabitacion.RESERVADA);
+            habitacion.setEstado(EstadoHabitacion.RESERVADA); // Actualiza el estado a RESERVADA
             reservas.add(reserva);
-            
+            System.out.println("Habitación " + habitacion.getNumero() + " reservada correctamente. Estado actual: " + habitacion.getEstado());
         } else {
-            throw new Exception("La habitacion no esta disponible.");
+            throw new Exception("La habitación no está disponible. Estado actual: " + habitacion.getEstado());
         }
-
-
-        reservas.add(reserva);
-        
     }
 
     public void cancelarReserva(int id) throws Exception{
@@ -103,7 +99,7 @@ public class GestorHotel{
         }
         if (habitacion.getEstado().equals(EstadoHabitacion.RESERVADA) ) {
             cliente.cancelReserva(reserva);
-            habitacion.setEstado(EstadoHabitacion.DISPONIBLE);
+            habitacion.actualizarEstado(EstadoHabitacion.DISPONIBLE);
             reservas.remove(reserva);
             
         } else {
@@ -147,7 +143,7 @@ public class GestorHotel{
 
     public void agregarHabitaciones() {
         for (int i = 1; i <= 3; i++) { // Loop through floors
-            for (int j = 1; j <= 5; j++) { // Loop through rooms per floor
+            for (int j = 1; j <= 3; j++) { // Loop through rooms per floor (101-103, 201-203, 301-303)
                 int numeroHabitacion = i * 100 + j;
                 TipoHabitacion tipo;
                 double precio;
@@ -155,10 +151,10 @@ public class GestorHotel{
                 if (j == 1) { // First room on each floor is a Suite
                     tipo = TipoHabitacion.SUITE;
                     precio = 150.0;
-                } else if (j <= 3) { // Rooms 2 and 3 are Double
+                } else if (j == 2) { // Second room on each floor is Double
                     tipo = TipoHabitacion.DOBLE;
                     precio = 80.0;
-                } else { // Rooms 4 and 5 are Individual
+                } else { // Third room on each floor is Individual
                     tipo = TipoHabitacion.INDIVIDUAL;
                     precio = 50.0;
                 }
@@ -171,6 +167,10 @@ public class GestorHotel{
 
     public ArrayList<Habitacion> getHabitaciones() {
         return habitaciones;
+    }
+
+    public ArrayList<Cliente> getClientes() {
+        return clientes;
     }
 
 }

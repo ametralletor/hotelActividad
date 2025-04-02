@@ -33,6 +33,7 @@ public class GestorHotel{
     this.clientes = new ArrayList<>();
     this.reservas = new ArrayList<>();
     this.habitaciones = new ArrayList<>();
+    actualizarEstadoHabitaciones();
 }
 
     //excepcion para reserva

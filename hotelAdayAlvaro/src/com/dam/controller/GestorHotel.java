@@ -9,9 +9,11 @@
 //DOBLE: 80€
 //SUITE: 150€
 
+//----------TERMINADO-----------------------//
 
+//¿?¿?¿CONSOLA?¿?¿
 //AÑADIR FUNCION PARA BUSCAR UNA HABITACION POR TIPO Y OTRA POR ESTADO
-//Resumen de Habitaciones: Listar todas las habitaciones y su estado actual.
+//Resumen de Habitaciones: Listar todas las habitaciones y su estado actual. 
 //Resumen de Clientes: Listar todos los clientes registrados y las habitaciones que tienen reservadas.
 
 package com.dam.controller;

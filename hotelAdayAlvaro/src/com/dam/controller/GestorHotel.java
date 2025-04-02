@@ -35,6 +35,33 @@ public class GestorHotel{
     this.habitaciones = new ArrayList<>();
 }
 
+    //excepcion para reserva
+    class ReservaNoDisponibleException extends Exception {
+        public ReservaNoDisponibleException(String message) {
+            super(message);
+        }
+    }
+
+    //excepcion para cliente no encontrado
+    class ClienteNoEncontradoException extends Exception {
+        public ClienteNoEncontradoException(String message) {
+            super(message);
+        }
+    }
+
+    //metodo para actualizar el estado de las habitaciones
+    public void actualizarEstadoHabitaciones() {
+        LocalDate hoy = LocalDate.now();
+        for (Reserva reserva : reservas) {
+            Habitacion habitacion = reserva.getHabitacion();
+            if (reserva.getFechaCheckin().equals(hoy) && habitacion.getEstado().equals(EstadoHabitacion.RESERVADA)) {
+                habitacion.setEstado(EstadoHabitacion.OCUPADA);
+                System.out.println("Habitación " + habitacion.getNumero() + " ahora está OCUPADA.");
+            }
+        }
+    }
+
+    //metodo para buscar cliente por id
     public Cliente buscarClientePorId(int id){
         for (Cliente cliente : clientes) {
             if (cliente.getId() == id) {
@@ -44,15 +71,36 @@ public class GestorHotel{
         return null;
     }
 
+    //metodo para buscar habitacion por numero
     public Habitacion buscarHabitacionPorNum(int numero){
         for (Habitacion habitacion : habitaciones) {
             if (habitacion.getNumero() == numero) {
-                return habitacion; // Devuelve la referencia exacta de la lista
+                return habitacion; 
+            }
+        }
+        return null;
+    }
+     //metodo para buscar habitacion por estado
+    public Habitacion buscarHabitacionPorEstado(EstadoHabitacion estado){
+        for (Habitacion habitacion : habitaciones) {
+            if (habitacion.getEstado() == estado) {
+                return habitacion; 
             }
         }
         return null;
     }
 
+    //metodo para buscar habitacion por tipo
+    public Habitacion buscarHabitacionPorTipo(TipoHabitacion tipo){
+        for (Habitacion habitacion : habitaciones) {
+            if (habitacion.getTipo() == tipo) {
+                return habitacion; 
+            }
+        }
+        return null;
+    }
+
+    //metodo para buscar reserva por id
     public Reserva buscarReservaPorId(int id){
         for (Reserva reserva : reservas) {
             if (reserva.getId() == id) {
@@ -62,14 +110,16 @@ public class GestorHotel{
         return null;
     }
 
+    //metodo para agregar cliente
     public void agregarCliente(Cliente cliente){
         clientes.add(cliente);
     }
 
+    //metodo para hacer reserva
     public void hacerReserva(Reserva reserva) throws Exception {
         Cliente cliente = buscarClientePorId(reserva.getCliente().getId());
         if (cliente == null) {
-            throw new Exception("Cliente no encontrado.");
+            throw new ClienteNoEncontradoException("Cliente no encontrado.");
         }
         Habitacion habitacion = buscarHabitacionPorNum(reserva.getHabitacion().getNumero());
         if (habitacion == null) {
@@ -77,14 +127,21 @@ public class GestorHotel{
         }
         if (habitacion.getEstado().equals(EstadoHabitacion.DISPONIBLE)) {
             cliente.addReserva(reserva);
-            habitacion.setEstado(EstadoHabitacion.RESERVADA); // Actualiza el estado a RESERVADA
+            if (reserva.getFechaCheckin().equals(LocalDate.now())) {
+                habitacion.setEstado(EstadoHabitacion.OCUPADA); // Actualiza el estado a ocupada, ya que la fecha es hoy
+            } else {
+                habitacion.setEstado(EstadoHabitacion.RESERVADA); // Actualiza el estado a reservada
+                
+            }
             reservas.add(reserva);
             System.out.println("Habitación " + habitacion.getNumero() + " reservada correctamente. Estado actual: " + habitacion.getEstado());
         } else {
-            throw new Exception("La habitación no está disponible. Estado actual: " + habitacion.getEstado());
+            throw new ReservaNoDisponibleException("La habitación " + habitacion.getNumero() + " no está disponible para reserva. Estado actual: " + habitacion.getEstado());
         }
     }
 
+
+    //metodo para cancelar reserva
     public void cancelarReserva(int id) throws Exception{
         Reserva reserva= buscarReservaPorId(id);
         if (reserva == null) {
@@ -109,10 +166,11 @@ public class GestorHotel{
     }
 
 
+    //metodo para listar reservas activas de un cliente
     public void buscarReservasActivasCliente(int id) throws Exception{
         Cliente cliente= buscarClientePorId(id);
         if (cliente == null) {
-            throw new Exception("Cliente no encontrado.");
+            throw new ClienteNoEncontradoException("Cliente no encontrado.");
         }
         ArrayList<Reserva> reservasActivas= cliente.getReservasActuales();
         if (reservasActivas.isEmpty()) {
@@ -125,10 +183,11 @@ public class GestorHotel{
         }
     }
 
+    //metodo para listar historial de reservas de un cliente
     public void listarHistorialReservasCliente(int id) throws Exception{
         Cliente cliente= buscarClientePorId(id);
         if (cliente == null) {
-            throw new Exception("Cliente no encontrado.");
+            throw new ClienteNoEncontradoException("Cliente no encontrado.");
         }
         ArrayList<Reserva> historialReservas= cliente.getHistorialReservas();
         if (historialReservas.isEmpty()) {
@@ -141,6 +200,7 @@ public class GestorHotel{
         }
     }
 
+    //metodo para listar todas las habitaciones
     public void agregarHabitaciones() {
         for (int i = 1; i <= 3; i++) { // Loop through floors
             for (int j = 1; j <= 3; j++) { // Loop through rooms per floor (101-103, 201-203, 301-303)
@@ -165,10 +225,12 @@ public class GestorHotel{
         }
     }
 
+    //metodo para listar todas las habitaciones
     public ArrayList<Habitacion> getHabitaciones() {
         return habitaciones;
     }
 
+    //metodo para listar todas los clientes
     public ArrayList<Cliente> getClientes() {
         return clientes;
     }
